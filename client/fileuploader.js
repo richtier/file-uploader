@@ -957,7 +957,7 @@ qq.UploadHandlerAbstract.prototype = {
     },
     _onAllComplete: function(){
       this._options.onAllComplete(this._completed_files);
-    },
+    }
 };
 
 /**
