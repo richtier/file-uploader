@@ -70,6 +70,15 @@ If you can't find the one you need, check the readme.txt in the same folder.
     action: '/server/upload',
     // additional data to send, name-value pairs
     params: {},
+
+    // Special Parameters
+    // CSRF Validation -
+    //   If your framework requires CSRF tokens as form input fields the
+    //   following parameters can be given to create a hidden input with 
+    /    the specified name and token value.
+    //   - csrf_token: the CSRF value the server requires
+    //   - csrf_name:  HTML name attribute of the input element containing 
+    //                 the csrf_token
     
     // validation    
     // ex. ['jpg', 'jpeg', 'png', 'gif'] or []

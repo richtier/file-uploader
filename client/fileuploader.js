@@ -1092,12 +1092,18 @@ qq.extend(qq.UploadHandlerForm.prototype, {
      * Creates form, that will be submitted to iframe
      */
     _createForm: function(iframe, params){
-        // We can't use the following code in IE6
-        // var form = document.createElement('form');
-        // form.setAttribute('method', 'post');
-        // form.setAttribute('enctype', 'multipart/form-data');
-        // Because in this case file won't be attached to request
-        var form = qq.toElement('<form method="post" enctype="multipart/form-data"></form>');
+        var form = null ; 
+        if( params.csrf_token && params.csrf_name )
+        {
+            var csrf = '<input type="hidden" name="'+ params.csrf_name  +'" value="' + params.csrf_token + '" />' ;
+            form = qq.toElement('<form method="post" enctype="multipart/form-data">' + csrf + '</form>');
+        }
+        else
+            form = qq.toElement('<form method="post" enctype="multipart/form-data"></form>');
+       
+        // get rid of the csrf parameters
+        delete params.csrf_token ;
+        delete params.csrf_name ;
 
         var queryString = qq.obj2url(params, this._options.action);
 
