@@ -570,7 +570,10 @@ qq.extend(qq.FileUploader.prototype, {
             onDrop: function(e){
                 dropArea.style.display = 'none';
                 qq.removeClass(dropArea, self._classes.dropActive);
-                self._uploadFileList(e.dataTransfer.files);    
+		if( !self.multiple && e.dataTransfer.files.length > 1 )
+		  alert( "Multiple file uploads are disabled." ) ;
+                else
+		  self._uploadFileList(e.dataTransfer.files);    
             }
         });
                 
