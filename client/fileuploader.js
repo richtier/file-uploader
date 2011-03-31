@@ -1114,8 +1114,6 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         {
             var csrf = '<input type="hidden" name="'+ params.csrf_name  +'" value="' + params.csrf_token + '" />' ;
             form = qq.toElement('<form method="post" enctype="multipart/form-data">' + csrf + '</form>');
-            if( params.csrf_xname )
-              delete params.csrf_xname ;
         }
         else
             form = qq.toElement('<form method="post" enctype="multipart/form-data"></form>');
