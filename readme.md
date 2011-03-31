@@ -78,7 +78,11 @@ If you can't find the one you need, check the readme.txt in the same folder.
     /    the specified name and token value.
     //   - csrf_token: the CSRF value the server requires
     //   - csrf_name:  HTML name attribute of the input element containing 
-    //                 the csrf_token
+    //                 the csrf_token that your framework expects for forms
+    //                 ex. 'csrfmiddlewaretoken' for django
+    //   - csrf_xname: The HTTP header name your framework expects for
+    //                 ajax submissions.
+    //                 ex. 'X-CSRFToken' for django, 'X-CSRF-Token' for RoR
     
     // validation    
     // ex. ['jpg', 'jpeg', 'png', 'gif'] or []

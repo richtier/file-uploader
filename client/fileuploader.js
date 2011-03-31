@@ -2,7 +2,8 @@
  * http://github.com/valums/file-uploader
  * 
  * Multiple file upload component with progress-bar, drag-and-drop. 
- * © 2010 Andrew Valums ( andrew(at)valums.com ) 
+ * © 2010 Andrew Valums ( andrew(at)valums.com )
+ * © 2011 Alex Kuhl (alexkuhl.org) 
  * 
  * Licensed under GNU GPL 2 or later, see license.txt.
  */    
@@ -1113,6 +1114,8 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         {
             var csrf = '<input type="hidden" name="'+ params.csrf_name  +'" value="' + params.csrf_token + '" />' ;
             form = qq.toElement('<form method="post" enctype="multipart/form-data">' + csrf + '</form>');
+            if( params.csrf_xname )
+              delete params.csrf_xname ;
         }
         else
             form = qq.toElement('<form method="post" enctype="multipart/form-data"></form>');
@@ -1120,7 +1123,8 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         // get rid of the csrf parameters
         delete params.csrf_token ;
         delete params.csrf_name ;
-
+        delete params.csrf_xname ;
+        
         var queryString = qq.obj2url(params, this._options.action);
 
         form.setAttribute('action', queryString);
@@ -1216,6 +1220,16 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
 
         // build query string
         params = params || {};
+        var token = false ;
+        var xname = false ;
+        if( params.csrf_token && params.csrf_xname )
+        {
+            token = params.csrf_token ;
+            xname = params.csrf_xname ;
+            delete params.csrf_token ;
+            delete params.csrf_xname ;
+            delete params.csrf_name ;
+        }  
         params['qqfile'] = name;
         var queryString = qq.obj2url(params, this._options.action);
 
@@ -1223,6 +1237,8 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         xhr.setRequestHeader("X-File-Name", encodeURIComponent(name));
         xhr.setRequestHeader("Content-Type", "application/octet-stream");
+        if( token )
+            xhr.setRequestHeader( xname, token ) ;
         xhr.send(file);
     },
     _onComplete: function(id, xhr){
