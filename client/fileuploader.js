@@ -1245,22 +1245,12 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
         
         var name = this.getName(id),
             size = this.getSize(id),
-            response = {};
+            response = JSON.parse(xhr.responseText);
         
         this._options.onProgress(id, name, size, size);
-                
-        if (String(xhr.status)[0] == '2'){
-            this.log("xhr - server response received");
-            this.log("responseText = " + xhr.responseText);
-
-            try {
-                response = eval("(" + xhr.responseText + ")");
-            } catch(err){}
-        }
-
         this._completed_files.push({file: this._files[id], response: response})
         this._options.onComplete(id, name, response, xhr);
-        
+
         this._files[id] = null;
         this._xhrs[id] = null;
         this._dequeue(id);
