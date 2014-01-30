@@ -330,9 +330,9 @@ qq.FileUploaderBasic.prototype = {
                 self._onProgress(id, fileName, loaded, total);
                 self._options.onProgress(id, fileName, loaded, total);                    
             },            
-            onComplete: function(id, fileName, result){
-                self._onComplete(id, fileName, result);
-                self._options.onComplete(id, fileName, result);
+            onComplete: function(id, fileName, response, xhr){
+                self._onComplete(id, fileName, response, xhr);
+                self._options.onComplete(id, fileName, response, xhr);
             },
             onAllComplete: function(completed_files){
                 self._options.onAllComplete(completed_files);
@@ -491,7 +491,7 @@ qq.FileUploader = function(o){
                 
         template: '<div class="qq-uploader">' + 
                 '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-                '<div class="qq-upload-button">Upload a file</div>' +
+                '<div class="qq-upload-button"></div>' +
                 '<ul class="qq-upload-list"></ul>' + 
              '</div>',
 
