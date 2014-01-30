@@ -1243,29 +1243,23 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
         // the request was aborted/cancelled
         if (!this._files[id]) return;
         
-        var name = this.getName(id);
-        var size = this.getSize(id);
+        var name = this.getName(id),
+            size = this.getSize(id),
+            response = {};
         
         this._options.onProgress(id, name, size, size);
                 
-        if (xhr.status == 200 || xhr.status == 201){
+        if (String(xhr.status)[0] == '2'){
             this.log("xhr - server response received");
             this.log("responseText = " + xhr.responseText);
-                        
-            var response;
-                    
+
             try {
                 response = eval("(" + xhr.responseText + ")");
-            } catch(err){
-                response = {};
-            }
-            this._completed_files.push({file: this._files[id], response: response})
-            this._options.onComplete(id, name, response);
-
-        } else {
-            this._completed_files.push({file: this._files[id], response: {} })
-            this._options.onComplete(id, name, {});
+            } catch(err){}
         }
+
+        this._completed_files.push({file: this._files[id], response: response})
+        this._options.onComplete(id, name, response, xhr);
         
         this._files[id] = null;
         this._xhrs[id] = null;
